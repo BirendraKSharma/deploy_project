@@ -1,0 +1,28 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'blog/style.css' %}">
+
+<form method="post" action="{% url 'blog:index' %}">
+    {% csrf_token %}
+    <input type="text" name="task_name" placeholder="name the task" required>
+    <button type="submit">Add Task</button>
+</form>
+
+{% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+    <li><a href="{% url 'blog:detail' question.id %}">{{ question.question_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+
+{% if tasks %}
+    <h2>Tasks</h2>
+    <ul>
+    {% for task in tasks %}
+        <li>{{ task.name }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
